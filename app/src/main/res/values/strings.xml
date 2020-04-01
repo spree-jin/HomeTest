@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HomeTest</string>
+    <string name="txt_best_sellers">Best Sellers</string>
+    <string name="txt_find_count">items found</string>
+</resources>
