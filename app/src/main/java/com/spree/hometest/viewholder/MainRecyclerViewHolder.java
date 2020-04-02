@@ -1,8 +1,8 @@
 package com.spree.hometest.viewholder;
 
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,8 +24,8 @@ public class MainRecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView txtName;
     @BindView(R.id.txt_price)
     TextView txtPrice;
-    @BindView(R.id.txt_rating)
-    TextView txtRating;
+    @BindView(R.id.ratingbarSmall)
+    RatingBar ratingBar;
 
     public MainRecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -33,7 +33,6 @@ public class MainRecyclerViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(Data data){
-
         Attributes attributes = data.getAttributes();
         if(attributes.getDefaultImageUrls().size() > 0){
             Glide
@@ -43,6 +42,8 @@ public class MainRecyclerViewHolder extends RecyclerView.ViewHolder {
         }
         txtName.setText(attributes.getName());
         txtPrice.setText(attributes.getPrice());
-        txtRating.setText(String.format("%s", attributes.getRating()));
+        ratingBar.setMax(5);
+        ratingBar.setStepSize(0.5f);
+        ratingBar.setRating(attributes.getRating());
     }
 }

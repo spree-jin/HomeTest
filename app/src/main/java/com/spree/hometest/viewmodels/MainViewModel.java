@@ -1,35 +1,39 @@
 package com.spree.hometest.viewmodels;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
+import com.spree.hometest.datasource.MainDataSourceFactory;
 import com.spree.hometest.models.Data;
-import com.spree.hometest.models.Links;
-import com.spree.hometest.models.Result;
 
-import java.util.List;
+import java.util.concurrent.Executors;
 
-public class MainViewModel extends ViewModel {
-    private Links links;
+public class MainViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<List<Data>> mutableLiveData = new MutableLiveData<>();
+    private MainDataSourceFactory mainDataSourceFactory;
+    private LiveData<PagedList<Data>> pagedListLiveData;
 
-    public LiveData<List<Data>> getMutableLiveData(){
-        return mutableLiveData;
+    public MainViewModel(Application application){
+        super(application);
+        mainDataSourceFactory = new MainDataSourceFactory();
+
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(true)
+                //.setInitialLoadSizeHint(30)
+                .setPageSize(30)
+                .setPrefetchDistance(10)
+                .build();
+
+        pagedListLiveData = new LivePagedListBuilder<String, Data>(mainDataSourceFactory, config)
+                .setFetchExecutor(Executors.newFixedThreadPool(4))
+                .build();
     }
 
-    public MainViewModel(){
-        // trigger main model load.
-    }
-
-    public void setResult(Result result) {
-        mutableLiveData.setValue(result.getData());
-        links = result.getLinks();
-    }
-
-    void doAction(){
-        // depending on the action, do necessary business logic calls and update the
-        // userLiveData.
+    public LiveData<PagedList<Data>> getPagedListLiveData() {
+        return pagedListLiveData;
     }
 }

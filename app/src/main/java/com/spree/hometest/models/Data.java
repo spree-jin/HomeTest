@@ -2,16 +2,19 @@ package com.spree.hometest.models;
 
 import com.google.gson.annotations.Expose;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Data {
 
     @Expose
-    private String type;
+    String type;
     @Expose
-    private String id;
+    String id;
     @Expose
-    private Attributes attributes;
+    Attributes attributes;
     @Expose
-    private Relationships relationships;
+    Relationships relationships;
 
     public String getType() {
         return type;

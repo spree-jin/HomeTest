@@ -9,4 +9,16 @@ public class Links {
     private String next;
     @Expose
     private String last;
+
+    public String getSelf() {
+        return self;
+    }
+
+    public String getNext() {
+        return next;
+    }
+
+    public String getLast() {
+        return last;
+    }
 }
