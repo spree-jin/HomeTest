@@ -1,5 +1,6 @@
 package com.spree.hometest.views;
 
+import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -50,10 +52,18 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        bindingView(Parcels.unwrap(getIntent().getParcelableExtra("Product")));
+        try{
+            bindingView(Parcels.unwrap(getIntent().getParcelableExtra("Product")));
+        } catch (NullPointerException npe) {
+            new AlertDialog.Builder(this).setMessage(R.string.txt_not_data)
+                    .setNegativeButton(R.string.txt_ok, (dialog, which) -> {
+                        finish();
+                    })
+                    .setCancelable(false).show();
+        }
     }
 
-    private void bindingView(Data data){
+    private void bindingView(Data data) throws NullPointerException{
         if(data.getAttributes().getZoomImageUrls() != null && data.getAttributes().getZoomImageUrls().size() > 0){
             Glide.with(this).load(data.getAttributes().getZoomImageUrls().get(0)).into(imgFeatured);
         }
@@ -67,12 +77,14 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             txtProduct.setText(data.getAttributes().getName() + "ㆍ" + heading);
         }
+
+        txtPrice.setText(data.getAttributes().getPrice());
+        txtReview.setText(data.getAttributes().getReviewsCount() + " " + strReview);
+        txtReview.setPaintFlags(txtReview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         ratingBar.setMax(5);
         ratingBar.setStepSize(0.5f);
         ratingBar.setRating(data.getAttributes().getRating());
-        txtReview.setText(data.getAttributes().getReviewsCount() + " " + strReview);
-        txtReview.setPaintFlags(txtReview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        txtPrice.setText(data.getAttributes().getPrice());
     }
 
     @OnClick(R.id.txt_back)

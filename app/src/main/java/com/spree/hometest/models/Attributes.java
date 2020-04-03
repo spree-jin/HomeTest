@@ -224,4 +224,20 @@ public class Attributes {
     public boolean isSoldOut() {
         return soldOut;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public void setReviewsCount(int reviewsCount) {
+        this.reviewsCount = reviewsCount;
+    }
 }

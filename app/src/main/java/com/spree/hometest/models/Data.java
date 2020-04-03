@@ -31,4 +31,8 @@ public class Data {
     public Relationships getRelationships() {
         return relationships;
     }
+
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
+    }
 }
