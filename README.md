@@ -30,3 +30,6 @@
   * Parceler Apply
   * JUnit Test Append(Retrofit2)
   * Espreso UI Test(Swipe, ItemClick, Detail)
+
+4. 2020/04/06
+  * RecyclerView Expansion UI Test add
